@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TestRunner.Testing</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>MindForge.TestRunner.Testing</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MindForge.TestRunner/mindforge.testrunner.csproj" />
+
+    <Using Include="System.Diagnostics" />
+    <Using Include="MindForge.TestRunner.UnitTesting" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>MindForge.TestRunner</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.IO" />
+    <Using Include="System.Text" />
+    <Using Include="System.Xml.Linq" />
+    <Using Include="System.Reflection" />
+    <Using Include="System.Diagnostics" />
+    
+    <Using Include="MindForge.TestRunner.Logging" />
+    <Using Include="MindForge.TestRunner.UnitTesting" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/bin/Debug/net8.0/mindforge.testrunner
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/bin/Debug/net8.0/mindforge.testrunner.deps.json
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/bin/Debug/net8.0/mindforge.testrunner.runtimeconfig.json
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/bin/Debug/net8.0/mindforge.testrunner.dll
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/bin/Debug/net8.0/mindforge.testrunner.pdb
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.GeneratedMSBuildEditorConfig.editorconfig
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.AssemblyInfoInputs.cache
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.AssemblyInfo.cs
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.csproj.CoreCompileInputs.cache
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.sourcelink.json
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.dll
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/refint/mindforge.testrunner.dll
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.pdb
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/mindforge.testrunner.genruntimeconfig.cache
+/home/badkraft/repos/sigma/mindforge/src/.test/MindForge.TestRunner/obj/Debug/net8.0/ref/mindforge.testrunner.dll
