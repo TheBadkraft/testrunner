@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "runner.net",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/TestRunner/bin/Debug/net8.0/mindforge.testrunner",
+      "preLaunchTask": "build testrunner"
+    },
+  ]
+}

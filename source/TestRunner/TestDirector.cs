@@ -98,12 +98,19 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
                 DiscoverTests();
 
                 break;
-            case RunnerState.Running:
+            case RunnerState.Execution:
                 ExecutTests();
 
                 break;
-            case RunnerState.Complete:
+            case RunnerState.Auditing:
                 AuditResults();
+
+                break;
+            case RunnerState.Complete:
+                /*
+                    Here, if CONFIG has SaveLogResults set to true, we can save the log results to a file.
+                */
+                Logger.Log(DebugLevel.Default, "TestRunner.Director has completed all actions.");
 
                 break;
             case RunnerState.Exit:

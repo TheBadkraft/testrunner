@@ -25,9 +25,9 @@ internal class RunnerStateHandler : StateHandler<RunnerState>
                 return true;
             case RunnerState.Ready when newState == RunnerState.Discovery:
                 return true;
-            case RunnerState.Discovery when newState == RunnerState.Running:
+            case RunnerState.Discovery when newState == RunnerState.Execution:
                 return true;
-            case RunnerState.Running when newState == RunnerState.Auditing:
+            case RunnerState.Execution when newState == RunnerState.Auditing:
                 return true;
             case RunnerState.Auditing when newState == RunnerState.Complete:
                 return true;
@@ -48,7 +48,7 @@ internal class RunnerStateHandler : StateHandler<RunnerState>
 
 
                 break;
-            case RunnerState.Running:
+            case RunnerState.Execution:
 
 
                 break;
@@ -71,8 +71,8 @@ internal class RunnerStateHandler : StateHandler<RunnerState>
         {
             case RunnerState.Idle: return RunnerState.Ready;
             case RunnerState.Ready: return RunnerState.Discovery;
-            case RunnerState.Discovery: return RunnerState.Running;
-            case RunnerState.Running: return RunnerState.Auditing;
+            case RunnerState.Discovery: return RunnerState.Execution;
+            case RunnerState.Execution: return RunnerState.Auditing;
             case RunnerState.Auditing: return RunnerState.Complete;
             case RunnerState.Complete: return RunnerState.Exit;
             default: return RunnerState.Error;

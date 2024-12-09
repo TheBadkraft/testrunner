@@ -91,7 +91,12 @@ public class TestDetector
             return null;
         }
     }
-    private bool EnumerateTests(ProjectInfo proj)
+    /// <summary>
+    /// Enumerates the tests in the specified project.
+    /// </summary>
+    /// <param name="proj">The project containing the tests to enumerate.</param>
+    /// <returns>TRUE if tests were enumerated; otherwise, FALSE.</returns>
+    internal bool EnumerateTests(ProjectInfo proj)
     {
         if (!proj.IsValid())
         {
@@ -120,7 +125,6 @@ public class TestDetector
                 if (testMethodsInfo.Any())
                 {
                     containerInfo.AddTests(testMethodsInfo);
-
                 }
             }
         }

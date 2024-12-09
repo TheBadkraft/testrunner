@@ -3,17 +3,23 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <RootNamespace>TestRunner.Testing</RootNamespace>
     <IsPackable>false</IsPackable>
     <AssemblyName>MindForge.TestRunner.Testing</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../MindForge.TestRunner/mindforge.testrunner.csproj" />
+    <ProjectReference Include="../../TestRunner/mindforge.testrunner.csproj" />
 
+    <Using Include="System.Text" />
     <Using Include="System.Diagnostics" />
+    <Using Include="Moq" />
     <Using Include="MindForge.TestRunner.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.72" />
   </ItemGroup>
 
 </Project>

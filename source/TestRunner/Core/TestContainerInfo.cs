@@ -76,8 +76,6 @@ public class TestContainerInfo
         // For the TestContext property, without using an attribute
         var assignContext = GetDelegate<AssignTestContext>(containerType, "TestContext", BindingFlags.Static | BindingFlags.Public);
         AssignContextDelegate = assignContext ?? ((tc) => { });
-
-        TestResults.AddRange(TestCases.Select(tc => new TestCaseResult() { Name = tc.Key, ContainerName = Name }));
     }
 
     /// <summary>
@@ -95,6 +93,8 @@ public class TestContainerInfo
                 TestCases.Add(method.Name, testCase);
             }
         }
+
+        TestResults.AddRange(TestCases.Select(tc => new TestCaseResult() { Name = tc.Key, ContainerName = Name }));
     }
     /// <summary>
     /// Get the test result information.

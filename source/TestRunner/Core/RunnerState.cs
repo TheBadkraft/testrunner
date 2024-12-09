@@ -18,9 +18,9 @@ public enum RunnerState
     /// </summary>
     Discovery,
     /// <summary>
-    /// The test runner is currently running tests.
+    /// The test runner is currently executing tests.
     /// </summary>
-    Running,
+    Execution,
     /// <summary>
     /// The test runner is auditing the test results.
     /// </summary>
