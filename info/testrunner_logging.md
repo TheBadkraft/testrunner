@@ -1,4 +1,4 @@
-**_This is the roadmap for an expansive overhaul on logging._**  
+**_This is a roadmap for an expansive overhaul on logging._**  
 
 ### Roadmap  
 #### **Composition:**  
