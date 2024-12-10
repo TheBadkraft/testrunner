@@ -167,16 +167,17 @@ public class DebugLoggerStrategy : ChainedStrategy
 }
 ```
 
-This set of classes and interface provides a flexible framework for implementing various logging strategies and composing them into a chain for sequential execution. Remember to call Compose() on CompositeLoggerStrategy whenever you modify the strategies list to ensure the chain is correctly set up.
+This set of classes and interface provides a flexible framework for implementing various logging strategies and composing them into a chain for sequential execution. Remember to call Compose() on CompositeLoggerStrategy whenever you modify the strategies list to ensure the chain is correctly set up.  
+
 -----  
 ## Observation  
 Now, integrating the Observer Pattern to facilitate centralized logging for objects already using an ILogger interface can be done as follows:
 
-Implementation Steps:
+- Implementation Steps:
 Centralized Logger (Subject):
 Create a central LoggerSubject that will act as the subject in the Observer Pattern. This class would manage or be aware of the ILoggerStrategy chain.
 
-csharp
+``` csharp
 public class LoggerSubject
 {
     private readonly List<IObserver<LogMessage>> _observers = new List<IObserver<LogMessage>>();
@@ -204,10 +205,12 @@ public class LoggerSubject
         NotifyObservers(message); // Notification after strategy chain execution
     }
 }
-Adapt Existing Loggers to Observers:
+```
+
+- Adapt Existing Loggers to Observers:
 Modify or wrap existing ILogger implementations to conform to IObserver<LogMessage>. This way, they can subscribe to the central LoggerSubject to receive all log messages:
 
-csharp
+``` csharp
 public class LoggerObserver : IObserver<LogMessage>
 {
     private ILogger _logger;
@@ -224,10 +227,12 @@ public class LoggerObserver : IObserver<LogMessage>
         _logger.Log(value.DebugLevel, value.Message);
     }
 }
-Integration with Existing Objects:
+```
+
+- Integration with Existing Objects:
 Instead of directly using ILogger, existing objects can now interact with the LoggerSubject. When instantiated, they would subscribe their ILogger wrapped as an IObserver to this central logger:
 
-csharp
+``` csharp
 // Example where an existing object that uses ILogger is updated
 public class ExistingObject
 {
@@ -245,10 +250,12 @@ public class ExistingObject
         _loggerSubject.Log(new LogMessage(DebugLevel.Info, "Doing something"));
     }
 }
-Manage Strategy Chain:
+```
+
+- Manage Strategy Chain:
 Ensure that the strategy chain in CompositeLoggerStrategy is composed and managed as needed, perhaps through configuration or dynamically at runtime based on the application's needs.
 
-Benefits:
+- Benefits:
 Decoupling: The existing objects are no longer tightly coupled to a specific ILogger implementation but to a centralized logging system.
 Flexibility: You can modify logging behavior by changing the strategy chain without altering the existing objects.
 Centralized Control: All logging goes through one point, making it easier to manage, monitor, and potentially redirect logs.
