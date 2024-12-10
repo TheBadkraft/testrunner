@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -6,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mindforge.testrunner", "Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{D1880E22-0A08-58BE-DC49-6C04D09DB70B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testrunner.testing", ".test\TestRunner.Testing\testrunner.testing.csproj", "{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testrunner.testing", ".test\TestRunner.Testing\testrunner.testing.csproj", "{05A11BE2-830F-4682-BDDF-73564992FC30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,10 +19,10 @@ Global
 		{ED56CC0E-8AB0-CDF5-E7C8-E3CD4E6561CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED56CC0E-8AB0-CDF5-E7C8-E3CD4E6561CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED56CC0E-8AB0-CDF5-E7C8-E3CD4E6561CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A11BE2-830F-4682-BDDF-73564992FC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A11BE2-830F-4682-BDDF-73564992FC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A11BE2-830F-4682-BDDF-73564992FC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A11BE2-830F-4682-BDDF-73564992FC30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +31,6 @@ Global
 		SolutionGuid = {07E6F2B0-3BB0-42B2-AADD-038D4F3EE82F}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F1C49E6F-5DA3-439C-BEEA-227263E5B8D9} = {D1880E22-0A08-58BE-DC49-6C04D09DB70B}
+		{05A11BE2-830F-4682-BDDF-73564992FC30} = {D1880E22-0A08-58BE-DC49-6C04D09DB70B}
 	EndGlobalSection
 EndGlobal

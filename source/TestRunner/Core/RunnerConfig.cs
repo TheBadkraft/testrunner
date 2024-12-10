@@ -12,4 +12,9 @@ public class RunnerConfig
     /// </summary>
     [JsonPropertyName("test_paths")]
     public string[] Paths { get; set; }
+    /// <summary>
+    /// Gets or sets the minimum debug level.
+    /// </summary>
+    [JsonPropertyName("min_debug_level")]
+    public DebugLevel MinDebugLevel { get; set; } = DebugLevel.Default;
 }

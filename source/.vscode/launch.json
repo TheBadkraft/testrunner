@@ -5,7 +5,7 @@
       "name": "runner.net",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/TestRunner/bin/Debug/net8.0/mindforge.testrunner",
+      "program": "${workspaceFolder}/TestRunner/bin/Debug/net9.0/mindforge.testrunner",
       "preLaunchTask": "build testrunner"
     },
   ]

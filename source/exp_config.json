@@ -1,0 +1,6 @@
+{
+  "test_paths": [
+    "./.test"
+  ],
+  "min_debug_level": 2
+}
