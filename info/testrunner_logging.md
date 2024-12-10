@@ -1,17 +1,15 @@
-
-Here's the source code for the various components you've described in your logging framework:
-
-ILoggerStrategy Interface
-csharp
+### **ILoggerStrategy Interface**  
+``` csharp
 public interface ILoggerStrategy
 {
     void Write(string message);
     void WriteLine(string message);
     void Log(DebugLevel debugLevel, string message);
 }
+```
 
-ChainedStrategy Base Class
-csharp
+### **ChainedStrategy Base Class**  
+``` csharp
 public abstract class ChainedStrategy : ILoggerStrategy
 {
     // Delegates for chaining strategies
@@ -51,9 +49,10 @@ public abstract class ChainedStrategy : ILoggerStrategy
     public delegate void WriteLineHandler(string message);
     public delegate void LogHandler(DebugLevel debugLevel, string message);
 }
+```
 
-CompositeLoggerStrategy Class
-csharp
+### **CompositeLoggerStrategy Class**  
+``` csharp
 public class CompositeLoggerStrategy : ILoggerStrategy
 {
     private List<ILoggerStrategy> _strategies = new List<ILoggerStrategy>();
@@ -93,20 +92,24 @@ public class CompositeLoggerStrategy : ILoggerStrategy
     public void WriteLine(string message) => _headStrategy?.WriteLine(message);
     public void Log(DebugLevel debugLevel, string message) => _headStrategy?.Log(debugLevel, message);
 }
+```
 
-DebugLevel Enum (assumed to be used in the Log methods)
-csharp
+### **DebugLevel Enum** _(assumed to be used in the Log methods)_  
+``` csharp
 public enum DebugLevel
 {
+    Verbose,
     Debug,
     Info,
     Warning,
     Error,
-    Fatal
+    Fatal,
+    Test
 }
+```
 
-Concrete Strategy Implementations (as examples provided earlier)
-csharp
+### **Concrete Strategy Implementations**  
+``` csharp
 public class FileLoggerStrategy : ChainedStrategy
 {
     private readonly string _filePath;
@@ -150,5 +153,6 @@ public class DebugLoggerStrategy : ChainedStrategy
         System.Diagnostics.Debug.WriteLine($"[{debugLevel}] {message}");
     }
 }
+```
 
 This set of classes and interface provides a flexible framework for implementing various logging strategies and composing them into a chain for sequential execution. Remember to call Compose() on CompositeLoggerStrategy whenever you modify the strategies list to ensure the chain is correctly set up.
