@@ -1,263 +1,141 @@
-**_This is a roadmap for an expansive overhaul on logging._**  
 
-### Roadmap  
-#### **Composition:**  
-`ILoggerStrategy` objects are composed into a chain where each strategy can leverage or modify the behavior of the next one in line. This is a classic example of _composition_ where one object can contain or reference another object to extend its functionality at runtime.  
+Here's a comprehensive analysis incorporating all our discussions, focusing on removing traditional event delegate subscriptions and emphasizing the observer pattern for better decoupling and maintainability:
 
-#### **Decorator:**  
-Each `ILoggerStrategy` acts as a _decorator_ since it can wrap another strategy, enhancing or altering its behavior without changing its interface.   
+Analysis:
+Design Considerations:
+Decoupling Log Generation from Logging:
+LogEntryGenerator: Acts as the subject in the Observer pattern, producing log entries without knowing or caring about the specific loggers consuming them. This class uses IObservable<LogEntry> for broadcasting logs.
+Observer as Strategy Coordinator:
+CompositeLoggerObserver: 
+Replaces the traditional CompositeLoggerStrategy in name and function, emphasizing its role as an observer rather than a strategy. 
+It subscribes to log entries from LogEntryGenerator and routes these entries to the appropriate ILoggerStrategy instances based on criteria like debug level or specific logging requirements.
+This approach avoids the need for event delegate subscriptions, reducing the complexity of managing subscriptions and ensuring proper cleanup via IDisposable.
+Event-Based System with Observables:
+Utilizing IObservable<T> from System.Reactive offers a cleaner method for event publication and subscription. It naturally supports disposal, which simplifies resource management.
+Single Responsibility Principle:
+FileLoggerStrategy: Focuses solely on writing to a file with a default formatting behavior. This strategy can be decorated or extended for more complex logging needs.
 
-#### **Strategy:**  
-The ability to choose different behaviors at runtime based on which _strategies_ are composed into the chain aligns with the Strategy Pattern's intent of defining a family of algorithms, encapsulating each one, and making them interchangeable.  
+Benefits:
+Intuitiveness: The structure is more intuitive as the logic for routing log entries is centralized in the CompositeLoggerObserver. Adding or removing loggers doesn't require changes to the log generator.
+Maintainability: The use of observables allows for easier testing, debugging, and extension of the system. Subscriptions can be managed with using statements or explicit disposal, ensuring resources are released when no longer needed.
+Flexibility: 
+Loggers can be added or removed dynamically at runtime.
+The routing logic within CompositeLoggerObserver can be easily modified to support new logging conditions or strategies.
+Scalability: As the application grows, the observer pattern allows for seamless integration of new logging components without affecting existing ones.
+Performance: By avoiding traditional event delegates, we minimize the risk of memory leaks and improve performance through better resource management.
 
-#### **ILoggerStrategy Interface**  
-``` csharp
-public interface ILoggerStrategy
+Source Example:
+LogEntry Class
+csharp
+public class LogEntry
 {
-    void Write(string message);
-    void WriteLine(string message);
-    void Log(DebugLevel debugLevel, string message);
+    public DateTime Timestamp { get; set; }
+    public DebugLevel Level { get; set; }
+    public string Message { get; set; }
 }
-```
 
-#### **ChainedStrategy Base Class**  
-``` csharp
-public abstract class ChainedStrategy : ILoggerStrategy
+LogEntryGenerator
+csharp
+using System.Reactive.Subjects;
+
+public class LogEntryGenerator
 {
-    // Delegates for chaining strategies
-    private WriteHandler _writeNext = (message) => { };
-    private WriteLineHandler _writeLineNext = (message) => { };
-    private LogHandler _logNext = (debugLevel, message) => { };
+    private readonly Subject<LogEntry> _logEntrySource = new Subject<LogEntry>();
 
-    // Abstract methods for each strategy to implement its specific behavior
-    protected abstract void DoWrite(string message);
-    protected abstract void DoWriteLine(string message);
-    protected abstract void DoLog(DebugLevel debugLevel, string message);
+    public IObservable<LogEntry> LogEntries => _logEntrySource;
 
-    // Implement ILoggerStrategy methods
-    public void Write(string message) { DoWrite(message); _writeNext(message); }
-    public void WriteLine(string message) { DoWriteLine(message); _writeLineNext(message); }
-    public void Log(DebugLevel debugLevel, string message) { DoLog(debugLevel, message); _logNext(debugLevel, message); }
-
-    // Method to set the next strategy in the chain
-    public void SetNextStrategy(ILoggerStrategy nextStrategy)
+    public void GenerateLogEntry(DebugLevel level, string message)
     {
-        if (nextStrategy == null)
-        {
-            _writeNext = (message) => { };
-            _writeLineNext = (message) => { };
-            _logNext = (debugLevel, message) => { };
-        }
-        else
-        {
-            _writeNext = nextStrategy.Write;
-            _writeLineNext = nextStrategy.WriteLine;
-            _logNext = nextStrategy.Log;
-        }
+        _logEntrySource.OnNext(new LogEntry 
+        { 
+            Timestamp = DateTime.Now, 
+            Level = level, 
+            Message = message 
+        });
     }
 
-    // Delegate signatures for clarity and type safety
-    public delegate void WriteHandler(string message);
-    public delegate void WriteLineHandler(string message);
-    public delegate void LogHandler(DebugLevel debugLevel, string message);
+    public void Complete() => _logEntrySource.OnCompleted();
 }
-```
 
-#### **CompositeLoggerStrategy Class**  
-``` csharp
-public class CompositeLoggerStrategy : ILoggerStrategy
-{
-    private List<ILoggerStrategy> _strategies = new List<ILoggerStrategy>();
-    private ILoggerStrategy _headStrategy;
-
-    public void AddStrategy(ILoggerStrategy strategy) { _strategies.Add(strategy); }
-    public void RemoveStrategy(ILoggerStrategy strategy) { _strategies.Remove(strategy); }
-    public void ReplaceStrategy(ILoggerStrategy oldStrategy, ILoggerStrategy newStrategy)
-    {
-        int index = _strategies.IndexOf(oldStrategy);
-        if (index != -1) _strategies[index] = newStrategy;
-    }
-
-    public void Compose()
-    {
-        _headStrategy = null;
-        ILoggerStrategy current = null;
-
-        foreach (var strategy in _strategies)
-        {
-            if (_headStrategy == null)
-            {
-                _headStrategy = strategy;
-                current = strategy;
-            }
-            else
-            {
-                current.SetNextStrategy(strategy);
-                current = strategy;
-            }
-        }
-        current?.SetNextStrategy(null); // Last strategy points to null
-    }
-
-    // Implement ILoggerStrategy methods by delegating to the head of the chain
-    public void Write(string message) => _headStrategy?.Write(message);
-    public void WriteLine(string message) => _headStrategy?.WriteLine(message);
-    public void Log(DebugLevel debugLevel, string message) => _headStrategy?.Log(debugLevel, message);
-}
-```
-
-#### **DebugLevel Enum** _(assumed to be used in the Log methods)_  
-``` csharp
-public enum DebugLevel
-{
-    Verbose,
-    Debug,
-    Info,
-    Warning,
-    Error,
-    Fatal,
-    Test
-}
-```
-
-#### **Concrete Strategy Implementations**  
-``` csharp
-public class FileLoggerStrategy : ChainedStrategy
+FileLoggerStrategy
+csharp
+public class FileLoggerStrategy : ILoggerStrategy
 {
     private readonly string _filePath;
+    private readonly object _lock = new object();
 
     public FileLoggerStrategy(string filePath)
     {
         _filePath = filePath;
     }
 
-    protected override void DoWrite(string message)
+    public void Write(string message)
     {
-        File.AppendAllText(_filePath, message);
-    }
-
-    protected override void DoWriteLine(string message)
-    {
-        File.AppendAllText(_filePath, message + Environment.NewLine);
-    }
-
-    protected override void DoLog(DebugLevel debugLevel, string message)
-    {
-        string logMessage = $"[{debugLevel}] {message}";
-        File.AppendAllText(_filePath, logMessage + Environment.NewLine);
-    }
-}
-
-public class DebugLoggerStrategy : ChainedStrategy
-{
-    protected override void DoWrite(string message)
-    {
-        System.Diagnostics.Debug.Write(message);
-    }
-
-    protected override void DoWriteLine(string message)
-    {
-        System.Diagnostics.Debug.WriteLine(message);
-    }
-
-    protected override void DoLog(DebugLevel debugLevel, string message)
-    {
-        System.Diagnostics.Debug.WriteLine($"[{debugLevel}] {message}");
-    }
-}
-```
-
-This set of classes and interface provides a flexible framework for implementing various logging strategies and composing them into a chain for sequential execution. Remember to call Compose() on CompositeLoggerStrategy whenever you modify the strategies list to ensure the chain is correctly set up.  
-
------  
-## Observation  
-Now, integrating the Observer Pattern to facilitate centralized logging for objects already using an ILogger interface can be done as follows:
-
-- Implementation Steps:
-Centralized Logger (Subject):
-Create a central LoggerSubject that will act as the subject in the Observer Pattern. This class would manage or be aware of the ILoggerStrategy chain.
-
-``` csharp
-public class LoggerSubject
-{
-    private readonly List<IObserver<LogMessage>> _observers = new List<IObserver<LogMessage>>();
-    private readonly CompositeLoggerStrategy _strategyChain;
-
-    public LoggerSubject(CompositeLoggerStrategy strategyChain)
-    {
-        _strategyChain = strategyChain;
-    }
-
-    public void RegisterObserver(IObserver<LogMessage> observer) => _observers.Add(observer);
-    public void RemoveObserver(IObserver<LogMessage> observer) => _observers.Remove(observer);
-    
-    public void NotifyObservers(LogMessage message)
-    {
-        foreach (var observer in _observers)
+        lock (_lock)
         {
-            observer.OnNext(message);
+            File.AppendAllText(_filePath, message);
         }
     }
 
-    public void Log(LogMessage message)
+    public void WriteLine(string message)
     {
-        _strategyChain.Log(message.DebugLevel, message.Message);
-        NotifyObservers(message); // Notification after strategy chain execution
+        Write(message + Environment.NewLine);
+    }
+
+    public void Log(DebugLevel debugLevel, string message)
+    {
+        string formattedMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{debugLevel.ToString().ToUpper()}] {message}";
+        WriteLine(formattedMessage);
     }
 }
-```
 
-- Adapt Existing Loggers to Observers:
-Modify or wrap existing ILogger implementations to conform to IObserver<LogMessage>. This way, they can subscribe to the central LoggerSubject to receive all log messages:
+CompositeLoggerObserver
+csharp
+using System;
+using System.Linq;
 
-``` csharp
-public class LoggerObserver : IObserver<LogMessage>
+public class CompositeLoggerObserver : IObserver<LogEntry>
 {
-    private ILogger _logger;
+    private readonly List<ILoggerStrategy> _strategies = new List<ILoggerStrategy>();
 
-    public LoggerObserver(ILogger logger)
-    {
-        _logger = logger;
-    }
+    public void AddStrategy(ILoggerStrategy strategy) => _strategies.Add(strategy);
+    public void RemoveStrategy(ILoggerStrategy strategy) => _strategies.Remove(strategy);
 
     public void OnCompleted() { /* Handle completion if needed */ }
-    public void OnError(Exception error) { /* Handle errors if needed */ }
-    public void OnNext(LogMessage value)
+    public void OnError(Exception error) { /* Handle errors */ }
+
+    public void OnNext(LogEntry value)
     {
-        _logger.Log(value.DebugLevel, value.Message);
+        foreach (var strategy in _strategies)
+        {
+            if (strategy is ILevelAwareStrategy levelAwareStrategy && value.Level >= levelAwareStrategy.MinDebugLevel)
+            {
+                levelAwareStrategy.Log(value.Level, value.Message);
+            }
+            else if (!(strategy is ILevelAwareStrategy))
+            {
+                strategy.Log(value.Level, value.Message);
+            }
+        }
     }
 }
-```
 
-- Integration with Existing Objects:
-Instead of directly using ILogger, existing objects can now interact with the LoggerSubject. When instantiated, they would subscribe their ILogger wrapped as an IObserver to this central logger:
+Usage
+csharp
+using System.Reactive.Disposables;
 
-``` csharp
-// Example where an existing object that uses ILogger is updated
-public class ExistingObject
+var logGenerator = new LogEntryGenerator();
+var fileLogger = new FileLoggerStrategy("log.txt");
+
+var compositeLogger = new CompositeLoggerObserver();
+compositeLogger.AddStrategy(fileLogger); // Add more strategies as needed
+
+using (var subscription = logGenerator.LogEntries.Subscribe(compositeLogger))
 {
-    private readonly LoggerSubject _loggerSubject;
-
-    public ExistingObject(LoggerSubject loggerSubject)
-    {
-        _loggerSubject = loggerSubject;
-        _loggerSubject.RegisterObserver(new LoggerObserver(this.Logger)); // Assume 'this.Logger' is an existing ILogger field or property
-    }
-
-    // Existing methods would now use _loggerSubject instead of ILogger directly
-    public void DoSomething()
-    {
-        _loggerSubject.Log(new LogMessage(DebugLevel.Info, "Doing something"));
-    }
+    logGenerator.GenerateLogEntry(DebugLevel.Info, "Application started");
+    // ... generate more logs
 }
-```
 
-- Manage Strategy Chain:
-Ensure that the strategy chain in CompositeLoggerStrategy is composed and managed as needed, perhaps through configuration or dynamically at runtime based on the application's needs.
+// Subscription is automatically disposed here
 
-- Benefits:
-Decoupling: The existing objects are no longer tightly coupled to a specific ILogger implementation but to a centralized logging system.
-Flexibility: You can modify logging behavior by changing the strategy chain without altering the existing objects.
-Centralized Control: All logging goes through one point, making it easier to manage, monitor, and potentially redirect logs.
-
-This approach leverages both composition for strategy chaining and observation for event dissemination, enhancing the system's modularity and maintainability.
+This design leverages the strengths of the Observer pattern with modern C# features like reactive programming, ensuring a system that's both robust and easy to extend.
