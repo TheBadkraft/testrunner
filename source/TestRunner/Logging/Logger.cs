@@ -1,4 +1,7 @@
 
+using MindForge.TestRunner.Core;
+using MindForge.TestRunner.Reporting;
+
 namespace MindForge.TestRunner.Logging;
 
 /// <summary>
@@ -6,7 +9,7 @@ namespace MindForge.TestRunner.Logging;
 /// standard output, error output, debug trace listener, and a 
 /// log file.
 /// </summary>
-public class Logger : TraceListener, ILogger
+public class Logger : ILogger, IAssertionObserver
 {
     private const string LOG_DIR = "test_logs";
 
@@ -28,20 +31,18 @@ public class Logger : TraceListener, ILogger
 
         Console.SetOut(writer);
         Console.SetError(writer);
-
-        Trace.Listeners.Add(this);
     }
 
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     /// <param name="message"></param>
-    public override void Write(string message) => writer.Write(message);
+    public void Write(string message) => writer.Write(message);
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     /// <param name="message"></param>
-    public override void WriteLine(string message) => writer.WriteLine(message);
+    public void WriteLine(string message) => writer.WriteLine(message);
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -125,18 +126,19 @@ public class Logger : TraceListener, ILogger
     /// <inheritdoc/>
     /// </summary>
     /// <param name="disposing"></param>
-    protected override void Dispose(bool disposing)
+    void IDisposable.Dispose()
     {
         Console.SetOut(stdOut);
         Console.SetError(stdErr);
-
-        Trace.Listeners.Remove(this);
 
         writer.Dispose();
         writer = null;
 
         GC.SuppressFinalize(this);
+    }
 
-        base.Dispose(disposing);
+    public void OnAssertion(TestCaseResult tcResult)
+    {
+        Log(DebugLevel.Default, $"Test {tcResult.Name,25} in {tcResult.ContainerName,-30} {tcResult.Outcome}.");
     }
 }

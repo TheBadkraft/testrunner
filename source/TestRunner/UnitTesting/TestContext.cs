@@ -1,7 +1,10 @@
 
-namespace MindForge.TestRunner.Core;
+using System.ComponentModel;
+using MindForge.TestRunner.Core;
 
-public class TestContext
+namespace MindForge.TestRunner.UnitTesting;
+
+public class TestContext : TestCaseSubject
 {
     internal TestContainerInfo ContainerInfo { get; set; }
 
@@ -25,5 +28,11 @@ public class TestContext
         EndTime = DateTime.Now;
         Success = success;
         ErrorMessage = errorMessage;
+    }
+
+    internal void ReportResult()
+    {
+        ContainerInfo.TryGetResultInfo(TestMethodName, out TestCaseResult tcResult);
+        NotifyAssertionResult(tcResult);
     }
 }

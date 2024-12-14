@@ -44,7 +44,6 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
         {
             return;
         }
-        Assert.Instance.Logger = logger as Logger;
 
         detector = new TestDetector(Logger, config);
         executor = new TestExecutor(Logger);
@@ -193,5 +192,6 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
     public void Dispose()
     {
         //  release resources ... (???)
+        executor.CleanUp();
     }
 }

@@ -10,6 +10,9 @@ public class TestCaseResult
     /// Gets or sets the name of the test case.
     /// </summary>
     public string Name { get; set; }
+    /// <summary>
+    /// Gets or sets the parent container name.
+    /// </summary>
     public string ContainerName { get; set; }
     /// <summary>
     /// Gets or sets the outcome of the test.
@@ -18,7 +21,7 @@ public class TestCaseResult
     /// <summary>
     /// Gets or sets the error message if the test failed.
     /// </summary>
-    public string ErrorMessage { get; set; }
+    public string Message { get; set; }
     /// <summary>
     /// Gets test start time.
     /// </summary>
@@ -31,16 +34,34 @@ public class TestCaseResult
     /// Gets the duration of the test.
     /// </summary>
     public TimeSpan Duration => EndTime - StartTime;
+    /// <summary>
+    /// Determines whether a test case has been interrupted
+    /// </summary>
+    public bool IsInterrupted { get; internal set; } = false;
 
+    /// <summary>
+    /// Start unit test
+    /// </summary>
     public void StartTest()
     {
         StartTime = DateTime.Now;
     }
-
-    public void EndTest(TestResult outcome, string errorMessage = null)
+    /// <summary>
+    /// End unit test
+    /// </summary>
+    public void EndTest()
     {
         EndTime = DateTime.Now;
-        Outcome = outcome;
-        ErrorMessage = errorMessage;
+    }
+    /// <summary>
+    /// End unit test with unexpected result
+    /// </summary>
+    /// <param name="result"></param>
+    /// <param name="message"></param>
+    internal void EndTest(TestResult result, string message)
+    {
+        EndTest();
+        Outcome = result;
+        Message = message;
     }
 }

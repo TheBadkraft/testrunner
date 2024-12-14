@@ -1,3 +1,5 @@
+using MindForge.TestRunner.Core;
+
 namespace MindForge.TestRunner.UnitTesting;
 
 public class Assert
@@ -6,7 +8,15 @@ public class Assert
 
     internal static Assert Instance => instance.Value;
 
-    internal Logger Logger { get; set; }
+    /// <summary>
+    /// Get or set the <see cref="TestContext"/>
+    /// </summary>
+    internal TestContext TestContext { get; set; }
+    /// <summary>
+    /// Get or set the <see cref="Logger"/>
+    /// </summary>
+    private Logger Logger => (Logger)TestContext.Logger;
+    private string CurrentTest => TestContext.ContainerInfo.CurrentTest;
 
     /// <summary>
     /// Asserts that the condition is true.
@@ -15,12 +25,23 @@ public class Assert
     /// <param name="message">Optional message to log if the condition is not true.</param>
     public static void IsTrue(bool condition, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (!condition)
         {
             message = message ?? "Condition is not true";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
+
     /// <summary>
     /// Asserts that the condition is false.
     /// </summary>
@@ -28,11 +49,21 @@ public class Assert
     /// <param name="message">Optional message to log if the condition is not false.</param>
     public static void IsFalse(bool condition, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (condition)
         {
             message = message ?? "Condition is not false";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the value is not null.
@@ -41,11 +72,20 @@ public class Assert
     /// <param name="message">Optional message to log if the value is null.</param>
     public static void IsNotNull(object value, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (value == null)
         {
-            message = message ?? "Value is null";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the collection is empty.
@@ -55,11 +95,21 @@ public class Assert
     /// <param name="message">Optional message to log if the collection is not empty.</param>
     public static void IsEmpty<T>(IEnumerable<T> collection, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (collection?.Any() == true)
         {
             message = message ?? "Collection is not empty";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the collection is not empty.
@@ -69,11 +119,21 @@ public class Assert
     /// <param name="message">Optional message to log if the collection is empty.</param>
     public static void IsNotEmpty<T>(IEnumerable<T> collection, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (collection?.Any() == false)
         {
             message = message ?? "Collection is empty";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the expected value is equal to the actual value.
@@ -84,11 +144,21 @@ public class Assert
     /// <param name="message">Optional message to log if the values are not equal.</param>
     public static void AreEqual<T>(T expected, T actual, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (!EqualityComparer<T>.Default.Equals(expected, actual))
         {
             message = message ?? $"Expected: {expected}, Actual: {actual}";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the expected collection is equal to the actual collection.
@@ -99,11 +169,21 @@ public class Assert
     /// <param name="message">Optional message to log if the collections are not equal.</param>
     public static void AreEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, string message = null)
     {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (!expected.SequenceEqual(actual))
         {
             message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
     /// Asserts that the expected array is equal to the actual array.
@@ -114,10 +194,56 @@ public class Assert
     /// <param name="message">Optional message to log if the arrays are not equal.</param>
     public static void AreEqual<T>(T[] expected, T[] actual, string message = null)
     {
+
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
         if (!expected.SequenceEqual(actual))
         {
             message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}";
-            Instance.Logger.Log(DebugLevel.Test, message);
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
         }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="message"></param>
+    public static void Fail(string message = null)
+    {
+        StartTest(out TestCaseResult tcResult);
+        message = message ?? "Fail";
+        tcResult.Outcome = TestResult.Fail;
+        tcResult.Message = message;
+        tcResult.IsInterrupted = true;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="message"></param>
+    public static void NotImplemented(string message = null)
+    {
+        StartTest(out TestCaseResult tcResult);
+        message = message ?? "Test not implemented";
+        tcResult.Outcome = TestResult.Undef;
+        tcResult.Message = message;
+        tcResult.IsInterrupted = true;
+    }
+
+
+    private static bool StartTest(out TestCaseResult tcResult)
+    {
+        if (!Instance.TestContext.ContainerInfo.TryGetResultInfo(Instance.CurrentTest, out tcResult))
+        {
+            throw new MissingMethodException();
+        }
+
+        return !tcResult.IsInterrupted;
     }
 }

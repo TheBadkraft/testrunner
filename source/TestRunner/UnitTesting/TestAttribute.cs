@@ -11,5 +11,8 @@ namespace MindForge.TestRunner.UnitTesting;
 [AttributeUsage(AttributeTargets.Method)]
 public class TestAttribute : Attribute
 {
-    //  mark an instance method as a test; method accepts no parameters
+    /// <summary>
+    /// Determine whether a test case method is skipped
+    /// </summary>
+    public bool Skip { get; set; } = false;
 }

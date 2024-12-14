@@ -8,5 +8,8 @@ namespace MindForge.TestRunner.UnitTesting;
 [AttributeUsage(AttributeTargets.Class)]
 public class TestContainerAttribute : Attribute
 {
-
+    /// <summary>
+    /// Determines whether a test container is ignored
+    /// </summary>
+    public bool Ignore { get; set; }
 }

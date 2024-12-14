@@ -115,7 +115,16 @@ public class TestDetector
 
             foreach (var @class in containers)
             {
-                Logger.Log(DebugLevel.Default, $"TestContainer: {@class.Name}");
+                var @attribute = @class.GetCustomAttribute<TestContainerAttribute>();
+                if (@attribute.Ignore)
+                {
+                    Logger.Log(DebugLevel.Default, $"TestContainer: {@class.Name} *** IGNORED ***");
+                    continue;
+                }
+                else
+                {
+                    Logger.Log(DebugLevel.Default, $"TestContainer: {@class.Name}");
+                }
                 var containerInfo = new TestContainerInfo(@class);
                 proj.AddContainerInfo(containerInfo);
 
@@ -124,6 +133,7 @@ public class TestDetector
                     .Where(m => m.GetCustomAttribute<TestAttribute>() != null);
                 if (testMethodsInfo.Any())
                 {
+                    testMethodsInfo = testMethodsInfo.Where(m => m.GetCustomAttribute<TestAttribute>().Skip == false);
                     containerInfo.AddTests(testMethodsInfo);
                 }
             }

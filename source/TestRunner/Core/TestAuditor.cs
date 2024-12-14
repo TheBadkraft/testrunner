@@ -59,7 +59,7 @@ public class TestAuditor
             Logger.Log(DebugLevel.Test, $"  {result.ContainerName}.{result.Name}, Result: {result.Outcome}, Duration: {result.Duration}");
             if (result.Outcome == TestResult.Fail)
             {
-                Logger.Log(DebugLevel.Test, $"    {result.ErrorMessage}");
+                Logger.Log(DebugLevel.Test, $"    {result.Message}");
             }
         }
     }
@@ -85,7 +85,7 @@ public class TestAuditor
                 writer.WriteLine($"Container: {result.ContainerName}, Test: {result.Name}, Result: {outcome}, Duration: {result.Duration}");
                 if (result.Outcome == TestResult.Fail)
                 {
-                    writer.WriteLine($"  Error: {result.ErrorMessage}");
+                    writer.WriteLine($"  Error: {result.Message}");
                 }
                 writer.WriteLine();
             }

@@ -46,6 +46,8 @@ public class TestExecutor
     {
         Logger = logger;
         TestContext = new TestContext { Logger = logger };
+        TestContext.Subscribe((Logger)Logger);
+        Assert.Instance.TestContext = TestContext;
     }
 
     /// <summary>
@@ -98,17 +100,21 @@ public class TestExecutor
         {
             containerInfo.TestSetUp(); // Will instantiate the container if needed
             test(); // Execute the test method
-            testResult.EndTest(TestResult.Pass);
-            Logger.Log(DebugLevel.Default, $"Test {testName} in {containerInfo.Name} {testResult.Outcome}.");
+            testResult.EndTest();
         }
         catch (Exception ex)
         {
-            testResult.EndTest(TestResult.Fail, ex.Message);
-            Logger.Log(DebugLevel.Error, $"Test {testName} in {containerInfo.Name} failed: {TestContext.ErrorMessage}");
+            testResult.EndTest(TestResult.Undef, ex.Message);
         }
         finally
         {
-            containerInfo.TestTearDown(); // Will instantiate the container if needed
+            TestContext.ReportResult();
+            containerInfo.TestTearDown();
         }
+    }
+
+    internal void CleanUp()
+    {
+        TestContext.Unsubscribe((Logger)Logger);
     }
 }
