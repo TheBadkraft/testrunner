@@ -13,9 +13,12 @@ public class Assert
     /// </summary>
     internal TestContext TestContext { get; set; }
     /// <summary>
-    /// Get or set the <see cref="Logger"/>
+    /// Get the <see cref="Logger"/>
     /// </summary>
-    private Logger Logger => (Logger)TestContext.Logger;
+    private FileLogger Logger => (FileLogger)TestContext.Logger;
+    /// <summary>
+    /// Get the current test name.
+    /// </summary>
     private string CurrentTest => TestContext.ContainerInfo.CurrentTest;
 
     /// <summary>
@@ -41,7 +44,6 @@ public class Assert
 
         tcResult.Outcome = TestResult.Pass;
     }
-
     /// <summary>
     /// Asserts that the condition is false.
     /// </summary>
@@ -87,6 +89,157 @@ public class Assert
 
         tcResult.Outcome = TestResult.Pass;
     }
+
+    /// <summary>
+    /// Asserts that the expected value is equal to the actual value.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="message">Optional message to log if the values are not equal.</param>
+    public static void AreEqual<T>(T expected, T actual, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!EqualityComparer<T>.Default.Equals(expected, actual))
+        {
+            message = message ?? $"Expected: {expected}, Actual: {actual}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the expected value is not equal to the actual value.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="message">Optional message to log if the values are equal.</param>
+    public static void AreNotEqual<T>(T expected, T actual, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (EqualityComparer<T>.Default.Equals(expected, actual))
+        {
+            message = message ?? $"Expected: {expected}, Actual: {actual}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the expected value is the same as the actual value.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="message">Optional message to log if the values are not the same.</param>
+    public static void AreSame<T>(T expected, T actual, string message = null) where T : class
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!ReferenceEquals(expected, actual))
+        {
+            message = message ?? $"Expected: {expected}, Actual: {actual}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the expected value is not the same as the actual value.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="message">Optional message to log if the values are not the same.</param>
+    public static void AreNotSame<T>(T expected, T actual, string message = null) where T : class
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (ReferenceEquals(expected, actual))
+        {
+            message = message ?? $"Expected: {expected}, Actual: {actual}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the value is null.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="value">The value to assert.</param>
+    /// <param name="message">Optional message to log if the values are not the same.</param>
+    public static void IsNull<T>(T value, string message = null) where T : class
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (value != null)
+        {
+            message = message ?? "Value is not null";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the value is null.
+    /// </summary>
+    /// <typeparam name="T">Type of the values.</typeparam>
+    /// <param name="value">The value to assert.</param>
+    /// <param name="message">Optional message to log if the values are not the same.</param>
+    public static void IsNotNull<T>(T value, string message = null) where T : class
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (value == null)
+        {
+            message = message ?? "Value is null";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+
+    #region Collection Asserts
     /// <summary>
     /// Asserts that the collection is empty.
     /// </summary>
@@ -136,21 +289,198 @@ public class Assert
         tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
-    /// Asserts that the expected value is equal to the actual value.
+    /// Asserts that the collection contains the expected value.
     /// </summary>
-    /// <typeparam name="T">Type of the values.</typeparam>
-    /// <param name="expected">The expected value.</param>
-    /// <param name="actual">The actual value.</param>
-    /// <param name="message">Optional message to log if the values are not equal.</param>
-    public static void AreEqual<T>(T expected, T actual, string message = null)
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="func">The function to determine if the collection contains the expected value.</param>
+    /// <param name="message">Optional message to log if the collection does not contain the expected value.</param>
+    public static void Contains<T>(IEnumerable<T> collection, Func<T, bool> func, string message = null)
+    {
+        //  Assert.Contains(LogSubject.Observers, x => x == Logger)
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!collection.Any(func))
+        {
+            message = message ?? "Collection does not contain the expected value";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array contains the expected value.
+    /// </summary>
+    /// <typeparam name="T">Type of the array.</typeparam>
+    /// <param name="array">The array to assert.</param>
+    /// <param name="func">The function to determine if the array contains the expected value.</param>
+    /// <param name="message">Optional message to log if the array does not contain the expected value.</param>
+    public static void Contains<T>(T[] array, Func<T, bool> func, string message = null)
     {
         if (!StartTest(out TestCaseResult tcResult))
         {
             return;
         }
-        if (!EqualityComparer<T>.Default.Equals(expected, actual))
+        if (!array.Any(func))
         {
-            message = message ?? $"Expected: {expected}, Actual: {actual}";
+            message = message ?? "Array does not contain the expected value";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the collection does not contain the expected value.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="func">The function to determine if the collection contains the expected value.</param>
+    /// <param name="message">Optional message to log if the collection does not contain the expected value.</param>
+    public static void DoesNotContain<T>(IEnumerable<T> collection, Func<T, bool> func, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (collection.Any(func))
+        {
+            message = message ?? "Collection contains the expected value";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array does not contain the expected value.
+    /// </summary>
+    /// <typeparam name="T">Type of the array.</typeparam>
+    /// <param name="array">The array to assert.</param>
+    /// <param name="func">The function to determine if the array contains the expected value.</param>
+    /// <param name="message">Optional message to log if the array does not contain the expected value.</param>
+    public static void DoesNotContain<T>(T[] array, Func<T, bool> func, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (array.Any(func))
+        {
+            message = message ?? "Array contains the expected value";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the collection contains all the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain all the expected values.</param>
+    public static void ContainsAll<T>(IEnumerable<T> collection, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!expected.All(x => collection.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", collection)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array contains all the expected values.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="array">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain all the expected values.</param>
+    public static void ContainsAll<T>(T[] array, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!expected.All(x => array.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", array)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the collection does not contain all the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection contains all the expected values.</param>
+    public static void DoesNotContainAll<T>(IEnumerable<T> collection, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (expected.All(x => collection.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", collection)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array does not contain all the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="array">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection contains all the expected values.</param>
+    public static void DoesNotContainAll<T>(T[] array, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (expected.All(x => array.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", array)}";
             tcResult.Outcome = TestResult.Fail;
             tcResult.Message = message;
             tcResult.IsInterrupted = true;
@@ -212,6 +542,109 @@ public class Assert
         tcResult.Outcome = TestResult.Pass;
     }
     /// <summary>
+    /// Asserts that the collection contains any of the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain any of the expected values.</param>
+    public static void ContainsAny<T>(IEnumerable<T> collection, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!expected.Any(x => collection.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", collection)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array contains any of the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="array">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain any of the expected values.</param>
+    public static void ContainsAny<T>(T[] array, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (!expected.Any(x => array.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", array)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the collection does not contain any of the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain any of the expected values.</param>
+    public static void DoesNotContainAny<T>(IEnumerable<T> collection, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (expected.Any(x => collection.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", collection)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    /// <summary>
+    /// Asserts that the array does not contain any of the expected values.
+    /// </summary>
+    /// <typeparam name="T">Type of the collection.</typeparam>
+    /// <param name="collection">The collection to assert.</param>
+    /// <param name="expected">The expected values.</param>
+    /// <param name="message">Optional message to log if the collection does not contain any of the expected values.</param>
+    public static void DoesNotContainAny<T>(T[] array, IEnumerable<T> expected, string message = null)
+    {
+        if (!StartTest(out TestCaseResult tcResult))
+        {
+            return;
+        }
+        if (expected.Any(x => array.Contains(x)))
+        {
+            message = message ?? $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", array)}";
+            tcResult.Outcome = TestResult.Fail;
+            tcResult.Message = message;
+            tcResult.IsInterrupted = true;
+
+            return;
+        }
+
+        tcResult.Outcome = TestResult.Pass;
+    }
+    #endregion Collection Asserts
+
+    #region Miscellaneous Asserts
+    /// <summary>
     /// 
     /// </summary>
     /// <param name="message"></param>
@@ -235,7 +668,7 @@ public class Assert
         tcResult.Message = message;
         tcResult.IsInterrupted = true;
     }
-
+    #endregion Miscellaneous Asserts
 
     private static bool StartTest(out TestCaseResult tcResult)
     {

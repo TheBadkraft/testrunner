@@ -16,7 +16,7 @@ public class TestResultTests
     public void AssertFail()
     {
         //  TestRunner interrupts test case on failed message
-        Assert.Fail("Failed: TestCase Interrupted");
+        Assert.Fail("TestCase Interrupted");
         Assert.IsTrue(false, "If you see this one, something is wrong.");
     }
 

@@ -1,12 +1,13 @@
 
-using System.Text.Json;
 using MindForge.TestRunner.Core;
+using MindForge.TestRunner.Extensibility;
+using MindForge.TestRunner.Reporting;
 
 /// <summary>
 /// The <c>TestDirector</c> class orchestrates the test execution process by managing the state machine
 /// and coordinating the test detection, execution, and auditing phases.
 /// </summary>
-public class TestDirector : StateMachine<RunnerState>, IDisposable
+public class TestDirector : StateMachine<RunnerState>, IDisposable, ITestRunMod
 {
     private const string JSON_CONFIG = "runner-config.json";
     private readonly TestDetector detector;
@@ -21,6 +22,15 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
     /// Gets the logger instance for logging activities.
     /// </summary>
     private ILogger Logger { get; init; }
+    /// <summary>
+    /// Gets the test logger for observing assertion results.
+    /// </summary>
+    private IAssertionObserver TestScribe { get; }
+
+    /// <summary>
+    /// Gets the test case subject for observing assertion results.
+    /// </summary>
+    public static TestCaseSubject TestCaseSubject { get; } = new();
 
     /// <summary>
     /// Indicates whether the test director is ready to begin detection,
@@ -39,6 +49,7 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
     public TestDirector(ILogger logger) : base(new RunnerStateHandler(logger))
     {
         Logger = logger;
+        TestScribe = TestCaseSubject.Subscribe(new JsonLogger(Logger));
 
         if (!LoadConfiguration())
         {
@@ -184,7 +195,7 @@ public class TestDirector : StateMachine<RunnerState>, IDisposable
     private void AuditResults()
     {
         //  audit results: generate results log
-        auditor.AuditResults(TestResults);
+        auditor.AuditResults(TestResults, TestScribe);
     }
     /// <summary>
     /// Releases all resources used by the <see cref="TestDirector"/> class.

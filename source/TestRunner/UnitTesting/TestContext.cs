@@ -1,11 +1,15 @@
 
-using System.ComponentModel;
 using MindForge.TestRunner.Core;
 
 namespace MindForge.TestRunner.UnitTesting;
 
-public class TestContext : TestCaseSubject
+public class TestContext
 {
+    private TestCaseSubject TestCaseSubject => TestDirector.TestCaseSubject;
+
+    /// <summary>
+    /// Get or set the current <see cref="TestContainerInfo"/>
+    /// </summary>
     internal TestContainerInfo ContainerInfo { get; set; }
 
     public string ContainerName => ContainerInfo?.Name;
@@ -18,11 +22,19 @@ public class TestContext : TestCaseSubject
 
     public ILogger Logger { get; init; }
 
+
+    /// <summary>
+    /// Start unit test
+    /// </summary>
     public void StartTest()
     {
         StartTime = DateTime.Now;
     }
-
+    /// <summary>
+    /// End unit test
+    /// </summary>
+    /// <param name="success">Flag indicating whether the test was successful</param>
+    /// <param name="errorMessage">Error message if the test failed</param>
     public void EndTest(bool success, string errorMessage = null)
     {
         EndTime = DateTime.Now;
@@ -30,9 +42,12 @@ public class TestContext : TestCaseSubject
         ErrorMessage = errorMessage;
     }
 
+    /// <summary>
+    /// Notify the test result
+    /// </summary>
     internal void ReportResult()
     {
         ContainerInfo.TryGetResultInfo(TestMethodName, out TestCaseResult tcResult);
-        NotifyAssertionResult(tcResult);
+        TestCaseSubject.NotifyAssertionResult(tcResult);
     }
 }
