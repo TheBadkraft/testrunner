@@ -10,10 +10,9 @@ public class TestDetectorTests
         Paths = ["./.test"]
     };
 
-    // public static TestContext TestContext { get; set; }
-    internal static TestLogger Logger { get; set; }
-
     public static TestContext TestContext { get; set; }
+
+    private static ILogger Logger { get; set; }
 
     [Test]
     public void EnumerateNoAssembly()
@@ -53,13 +52,13 @@ public class TestDetectorTests
     [ContainerInitialize]
     public static void Initialize(TestContext context)
     {
-        Logger = new TestLogger();
+        Logger = A.Fake<ILogger>();
     }
 
     [TearDown]
     public void TearDown()
     {
-        Logger.Flush();
+
     }
 
     #endregion

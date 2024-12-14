@@ -46,7 +46,7 @@ public class TestExecutor
     {
         Logger = logger;
         TestContext = new TestContext { Logger = logger };
-        TestContext.Subscribe((Logger)Logger);
+        TestDirector.TestCaseSubject.Subscribe((FileLogger)Logger);
         Assert.Instance.TestContext = TestContext;
     }
 
@@ -115,6 +115,6 @@ public class TestExecutor
 
     internal void CleanUp()
     {
-        TestContext.Unsubscribe((Logger)Logger);
+        TestDirector.TestCaseSubject.Unsubscribe((FileLogger)Logger);
     }
 }

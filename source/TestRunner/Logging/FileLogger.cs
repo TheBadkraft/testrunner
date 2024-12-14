@@ -9,7 +9,7 @@ namespace MindForge.TestRunner.Logging;
 /// standard output, error output, debug trace listener, and a 
 /// log file.
 /// </summary>
-public class Logger : ILogger, IAssertionObserver
+public class FileLogger : ILogger, IAssertionObserver
 {
     private const string LOG_DIR = "test_logs";
 
@@ -20,9 +20,9 @@ public class Logger : ILogger, IAssertionObserver
     public string LogFile { get; init; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Logger"/> class.
+    /// Initializes a new instance of the <see cref="FileLogger"/> class.
     /// </summary>
-    public Logger(string logFilePath)
+    public FileLogger(string logFilePath)
     {
         var stream = new StreamWriter(LogFile = logFilePath, false);
         // stream.BaseStream.SetLength(0);
@@ -81,6 +81,14 @@ public class Logger : ILogger, IAssertionObserver
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
+    /// <param name="tcResult"></param>
+    public void OnAssertion(TestCaseResult tcResult)
+    {
+        Log(DebugLevel.Default, $"Test {tcResult.Name,25} in {tcResult.ContainerName,-30} {tcResult.Outcome}.");
+    }
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public void Shutdown()
     {
         SaveLogFile();
@@ -110,16 +118,17 @@ public class Logger : ILogger, IAssertionObserver
         }
 
     }
+
     /// <summary>
     /// Generates a random log file name.
     /// </summary>
     /// <returns>A random log file name (*.log).</returns>
-    private string GenerateLogFileName()
+    public static string GenerateLogFileName(string ext = "log")
     {
         var chars = "Aa80Bb9C1cDd2EeF3fGg4HhJ5_iK6jLk7MmN8nPo9QpR1qSr2TsU3tVu4WvX5wYx6Zy_7z";
         var random = new Random();
         var fileName = new string(Enumerable.Repeat(chars, 8).Select(s => s[random.Next(s.Length)]).ToArray());
-        return $"{fileName}.log";
+        return $"{fileName}.{ext}";
     }
 
     /// <summary>
@@ -135,10 +144,5 @@ public class Logger : ILogger, IAssertionObserver
         writer = null;
 
         GC.SuppressFinalize(this);
-    }
-
-    public void OnAssertion(TestCaseResult tcResult)
-    {
-        Log(DebugLevel.Default, $"Test {tcResult.Name,25} in {tcResult.ContainerName,-30} {tcResult.Outcome}.");
     }
 }

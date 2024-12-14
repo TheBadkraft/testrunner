@@ -1,5 +1,7 @@
 
 
+using MindForge.TestRunner.Reporting;
+
 namespace MindForge.TestRunner.Core;
 
 /// <summary>
@@ -17,12 +19,14 @@ public class TestAuditor
         Logger = logger;
     }
 
-    internal void AuditResults(IEnumerable<TestCaseResult> testResults)
+    internal void AuditResults(IEnumerable<TestCaseResult> testResults, IAssertionObserver observer)
     {
         Logger.Log(DebugLevel.Default, "Begin Auditing Results ...");
         Results = testResults.ToList();
         GenerateSummaryReport();
         LogDetailedResults();
+
+        ((ILogger)observer).Shutdown();
     }
 
     /// <summary>

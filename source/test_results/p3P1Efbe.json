@@ -1,0 +1,247 @@
+[
+  {
+    "timestamp": "2024-12-14T17:06:27.5668492-06:00",
+    "method": "RunConfigTests.SerializeConfig",
+    "result": "Pass",
+    "duration": "00:00:00.0773231",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:27.5838539-06:00",
+    "method": "RunConfigTests.DeserializeConfig",
+    "result": "Pass",
+    "duration": "00:00:00.0065080",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0364974-06:00",
+    "method": "TestDetectorTests.EnumerateNoAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0005890",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0600440-06:00",
+    "method": "TestDetectorTests.EnumerateWithAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0231144",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0605544-06:00",
+    "method": "TestDetectorTests.EnumerateWithEmptyAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0002926",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0608064-06:00",
+    "method": "AssertsTests.IsTrue",
+    "result": "Pass",
+    "duration": "00:00:00.0000881",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0610892-06:00",
+    "method": "AssertsTests.IsTrue_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0002382",
+    "message": "Condition is not true"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0612076-06:00",
+    "method": "AssertsTests.IsFalse",
+    "result": "Pass",
+    "duration": "00:00:00.0000730",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0613224-06:00",
+    "method": "AssertsTests.IsFalse_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0000731",
+    "message": "Condition is not false"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0626481-06:00",
+    "method": "AssertsTests.AreEqual",
+    "result": "Pass",
+    "duration": "00:00:00.0012740",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0629066-06:00",
+    "method": "AssertsTests.AreEqual_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0001468",
+    "message": "Expected: 1, Actual: 2"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0635165-06:00",
+    "method": "AssertsTests.AreNotEqual",
+    "result": "Pass",
+    "duration": "00:00:00.0005622",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0643105-06:00",
+    "method": "AssertsTests.AreSame",
+    "result": "Pass",
+    "duration": "00:00:00.0006856",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0646761-06:00",
+    "method": "AssertsTests.AreSame_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0002664",
+    "message": "Expected: System.Object, Actual: System.Object"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0652845-06:00",
+    "method": "AssertsTests.AreNotSame",
+    "result": "Pass",
+    "duration": "00:00:00.0005295",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0655017-06:00",
+    "method": "AssertsTests.AreNotSame_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0001468",
+    "message": "Expected: System.Object, Actual: System.Object"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0667061-06:00",
+    "method": "CollectionTests.CollectionIsEmpty",
+    "result": "Pass",
+    "duration": "00:00:00.0011067",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0672349-06:00",
+    "method": "CollectionTests.CollectionIsEmpty_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0004081",
+    "message": "Collection is not empty"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0678597-06:00",
+    "method": "CollectionTests.CollectionIsNotEmpty",
+    "result": "Pass",
+    "duration": "00:00:00.0005575",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0681006-06:00",
+    "method": "CollectionTests.CollectionIsNotEmpty_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0001592",
+    "message": "Collection is empty"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0714308-06:00",
+    "method": "CollectionTests.CollectionContains",
+    "result": "Pass",
+    "duration": "00:00:00.0032434",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0720193-06:00",
+    "method": "CollectionTests.CollectionContains_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0004136",
+    "message": "Collection does not contain the expected value"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0727669-06:00",
+    "method": "CollectionTests.CollectionDoesNotContain",
+    "result": "Pass",
+    "duration": "00:00:00.0006664",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0732426-06:00",
+    "method": "CollectionTests.CollectionDoesNotContain_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0003765",
+    "message": "Collection contains the expected value"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0800878-06:00",
+    "method": "CollectionTests.CollectionContainsAll",
+    "result": "Pass",
+    "duration": "00:00:00.0067722",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0838862-06:00",
+    "method": "CollectionTests.CollectionContainsAll_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0036437",
+    "message": "Expected: 1, 4, Actual: 1, 2, 3"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0855785-06:00",
+    "method": "CollectionTests.CollectionDoesNotContainAll",
+    "result": "Pass",
+    "duration": "00:00:00.0015534",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0859860-06:00",
+    "method": "CollectionTests.CollectionDoesNotContainAll_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0002805",
+    "message": "Expected: 1, 2, Actual: 1, 2, 3"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0873421-06:00",
+    "method": "CollectionTests.CollectionContainsAny",
+    "result": "Pass",
+    "duration": "00:00:00.0012737",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0878736-06:00",
+    "method": "CollectionTests.CollectionContainsAny_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0003967",
+    "message": "Expected: 4, 5, Actual: 1, 2, 3"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0892919-06:00",
+    "method": "CollectionTests.CollectionDoesNotContainAny",
+    "result": "Pass",
+    "duration": "00:00:00.0013229",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0897647-06:00",
+    "method": "CollectionTests.CollectionDoesNotContainAny_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0003138",
+    "message": "Expected: 1, 4, Actual: 1, 2, 3"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0899416-06:00",
+    "method": "TestResultTests.AssertPassed",
+    "result": "Pass",
+    "duration": "00:00:00.0001025",
+    "message": null
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0902631-06:00",
+    "method": "TestResultTests.AssertFail",
+    "result": "Fail",
+    "duration": "00:00:00.0002604",
+    "message": "TestCase Interrupted"
+  },
+  {
+    "timestamp": "2024-12-14T17:06:28.0905583-06:00",
+    "method": "TestResultTests.NotImplemented",
+    "result": "Undef",
+    "duration": "00:00:00.0002223",
+    "message": "Test Not Yet Implemented"
+  }
+]
