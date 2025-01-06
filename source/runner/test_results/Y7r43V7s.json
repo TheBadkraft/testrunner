@@ -1,0 +1,128 @@
+[
+  {
+    "timestamp": "2025-01-05T17:50:38.5994963-06:00",
+    "method": "TestDetectorTests.HasTestContext",
+    "result": "Pass",
+    "duration": "00:00:00.0016534",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6105194-06:00",
+    "method": "TestDetectorTests.EnumerateNoAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0007707",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6340449-06:00",
+    "method": "TestDetectorTests.EnumerateWithAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0233235",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6344899-06:00",
+    "method": "TestDetectorTests.EnumerateWithEmptyAssembly",
+    "result": "Pass",
+    "duration": "00:00:00.0002880",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6403715-06:00",
+    "method": "LogSubjectTests.Attach_AddsObserverToList",
+    "result": "Pass",
+    "duration": "00:00:00.0014852",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6410816-06:00",
+    "method": "AssertsTests.IsTrue",
+    "result": "Pass",
+    "duration": "00:00:00.0000858",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6417762-06:00",
+    "method": "AssertsTests.IsTrue_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0006143",
+    "message": "Condition is not true"
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6419900-06:00",
+    "method": "AssertsTests.IsFalse",
+    "result": "Pass",
+    "duration": "00:00:00.0001447",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6421300-06:00",
+    "method": "AssertsTests.IsFalse_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0000914",
+    "message": "Condition is not false"
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6436289-06:00",
+    "method": "AssertsTests.AreEqual",
+    "result": "Pass",
+    "duration": "00:00:00.0014332",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6439095-06:00",
+    "method": "AssertsTests.AreEqual_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0001570",
+    "message": "Expected: 1, Actual: 2"
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6446942-06:00",
+    "method": "AssertsTests.AreNotEqual",
+    "result": "Pass",
+    "duration": "00:00:00.0006745",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6455036-06:00",
+    "method": "AssertsTests.AreSame",
+    "result": "Pass",
+    "duration": "00:00:00.0007221",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6458201-06:00",
+    "method": "AssertsTests.AreSame_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0002266",
+    "message": "Expected: System.Object, Actual: System.Object"
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6464968-06:00",
+    "method": "AssertsTests.AreNotSame",
+    "result": "Pass",
+    "duration": "00:00:00.0006255",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6467351-06:00",
+    "method": "AssertsTests.AreNotSame_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0001642",
+    "message": "Expected: System.Object, Actual: System.Object"
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.6923811-06:00",
+    "method": "AssertsTests.ExpectedException",
+    "result": "Pass",
+    "duration": "00:00:00.0455779",
+    "message": null
+  },
+  {
+    "timestamp": "2025-01-05T17:50:38.7428035-06:00",
+    "method": "AssertsTests.ExpectedException_Fail",
+    "result": "Fail",
+    "duration": "00:00:00.0502780",
+    "message": "Expected exception of type ArgumentNullException, but caught exception of type InvalidOperationException"
+  }
+]

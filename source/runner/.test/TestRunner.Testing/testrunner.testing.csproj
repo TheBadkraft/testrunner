@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>TestRunner.Testing</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>MindForge.TestRunner.Testing</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../TestRunner/mindforge.testrunner.csproj" />
+
+    <Reference Include="../../../lib/FakeItEasy.dll" />
+
+    <Using Include="System.Text" />
+    <Using Include="System.Text.Json" />
+    <Using Include="System.Diagnostics" />
+    <Using Include="FakeItEasy" />
+    <Using Include="MindForge.TestRunner.Core" />
+    <Using Include="MindForge.TestRunner.Logging" />
+    <Using Include="MindForge.TestRunner.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestObjects/" />
+  </ItemGroup>
+
+</Project>

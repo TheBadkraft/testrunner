@@ -1,0 +1,65 @@
+Launching MindForge.TestRunner!
+[17:50:37.935] [INFO   ]: TestRunner.Director is ready to run.
+[17:50:38.003] [INFO   ]: Begin Test Discovery ...
+[17:50:38.174] [INFO   ]: Found 8 test containers in MindForge.TestRunner.Testing
+[17:50:38.175] [INFO   ]: TestContainer: RunConfigTests *** IGNORED ***
+[17:50:38.175] [INFO   ]: TestContainer: TestDetectorTests
+[17:50:38.193] [INFO   ]: TestContainer: LogSubjectTests
+[17:50:38.195] [INFO   ]: TestContainer: AssertsTests
+[17:50:38.196] [INFO   ]: TestContainer: CollectionTests *** IGNORED ***
+[17:50:38.196] [INFO   ]: TestContainer: IgnoredTestContainer *** IGNORED ***
+[17:50:38.196] [INFO   ]: TestContainer: TestCaseSkipped *** IGNORED ***
+[17:50:38.196] [INFO   ]: TestContainer: TestResultTests *** IGNORED ***
+[17:50:38.200] [INFO   ]: Begin Test Execution ...
+[17:50:38.609] [INFO   ]: Test            HasTestContext in TestDetectorTests              Pass.
+[17:50:38.610] [INFO   ]: Test       EnumerateNoAssembly in TestDetectorTests              Pass.
+[17:50:38.634] [INFO   ]: Test     EnumerateWithAssembly in TestDetectorTests              Pass.
+[17:50:38.634] [INFO   ]: Test EnumerateWithEmptyAssembly in TestDetectorTests              Pass.
+[17:50:38.640] [INFO   ]: Test Attach_AddsObserverToList in LogSubjectTests                Pass.
+[17:50:38.641] [INFO   ]: Test                    IsTrue in AssertsTests                   Pass.
+[17:50:38.641] [INFO   ]: Test               IsTrue_Fail in AssertsTests                   Fail.
+[17:50:38.642] [INFO   ]: Test                   IsFalse in AssertsTests                   Pass.
+[17:50:38.642] [INFO   ]: Test              IsFalse_Fail in AssertsTests                   Fail.
+[17:50:38.643] [INFO   ]: Test                  AreEqual in AssertsTests                   Pass.
+[17:50:38.643] [INFO   ]: Test             AreEqual_Fail in AssertsTests                   Fail.
+[17:50:38.644] [INFO   ]: Test               AreNotEqual in AssertsTests                   Pass.
+[17:50:38.645] [INFO   ]: Test                   AreSame in AssertsTests                   Pass.
+[17:50:38.645] [INFO   ]: Test              AreSame_Fail in AssertsTests                   Fail.
+[17:50:38.646] [INFO   ]: Test                AreNotSame in AssertsTests                   Pass.
+[17:50:38.646] [INFO   ]: Test           AreNotSame_Fail in AssertsTests                   Fail.
+[17:50:38.692] [INFO   ]: Test         ExpectedException in AssertsTests                   Pass.
+[17:50:38.742] [INFO   ]: Test    ExpectedException_Fail in AssertsTests                   Fail.
+[17:50:38.744] [INFO   ]: ... Test Execution Complete
+[17:50:38.745] [INFO   ]: Begin Auditing Results ...
+[17:50:38.757] [TEST   ]: Test Summary:
+[17:50:38.757] [TEST   ]:   Total Tests: 18
+[17:50:38.757] [TEST   ]:   Passed: 12
+[17:50:38.757] [TEST   ]:   Failed: 6
+[17:50:38.757] [TEST   ]:   Undefined: 0
+[17:50:38.802] [TEST   ]:   Pass Rate: 66.667%
+[17:50:38.803] [TEST   ]: Detailed Results:
+[17:50:38.804] [TEST   ]:   TestDetectorTests.HasTestContext, Result: Pass, Duration: 00:00:00.0016534
+[17:50:38.804] [TEST   ]:   TestDetectorTests.EnumerateNoAssembly, Result: Pass, Duration: 00:00:00.0007707
+[17:50:38.804] [TEST   ]:   TestDetectorTests.EnumerateWithAssembly, Result: Pass, Duration: 00:00:00.0233235
+[17:50:38.804] [TEST   ]:   TestDetectorTests.EnumerateWithEmptyAssembly, Result: Pass, Duration: 00:00:00.0002880
+[17:50:38.804] [TEST   ]:   LogSubjectTests.Attach_AddsObserverToList, Result: Pass, Duration: 00:00:00.0014852
+[17:50:38.804] [TEST   ]:   AssertsTests.IsTrue, Result: Pass, Duration: 00:00:00.0000858
+[17:50:38.804] [TEST   ]:   AssertsTests.IsTrue_Fail, Result: Fail, Duration: 00:00:00.0006143
+[17:50:38.804] [TEST   ]:     Condition is not true
+[17:50:38.804] [TEST   ]:   AssertsTests.IsFalse, Result: Pass, Duration: 00:00:00.0001447
+[17:50:38.804] [TEST   ]:   AssertsTests.IsFalse_Fail, Result: Fail, Duration: 00:00:00.0000914
+[17:50:38.804] [TEST   ]:     Condition is not false
+[17:50:38.804] [TEST   ]:   AssertsTests.AreEqual, Result: Pass, Duration: 00:00:00.0014332
+[17:50:38.804] [TEST   ]:   AssertsTests.AreEqual_Fail, Result: Fail, Duration: 00:00:00.0001570
+[17:50:38.804] [TEST   ]:     Expected: 1, Actual: 2
+[17:50:38.804] [TEST   ]:   AssertsTests.AreNotEqual, Result: Pass, Duration: 00:00:00.0006745
+[17:50:38.804] [TEST   ]:   AssertsTests.AreSame, Result: Pass, Duration: 00:00:00.0007221
+[17:50:38.804] [TEST   ]:   AssertsTests.AreSame_Fail, Result: Fail, Duration: 00:00:00.0002266
+[17:50:38.804] [TEST   ]:     Expected: System.Object, Actual: System.Object
+[17:50:38.804] [TEST   ]:   AssertsTests.AreNotSame, Result: Pass, Duration: 00:00:00.0006255
+[17:50:38.804] [TEST   ]:   AssertsTests.AreNotSame_Fail, Result: Fail, Duration: 00:00:00.0001642
+[17:50:38.804] [TEST   ]:     Expected: System.Object, Actual: System.Object
+[17:50:38.804] [TEST   ]:   AssertsTests.ExpectedException, Result: Pass, Duration: 00:00:00.0455779
+[17:50:38.804] [TEST   ]:   AssertsTests.ExpectedException_Fail, Result: Fail, Duration: 00:00:00.0502780
+[17:50:38.804] [TEST   ]:     Expected exception of type ArgumentNullException, but caught exception of type InvalidOperationException
+[17:50:38.813] [INFO   ]: TestRunner.Director has completed all actions.

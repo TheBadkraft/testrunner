@@ -87,24 +87,30 @@ namespace MindForge.TestRunner.Core
 ``` c#
 namespace MindForge.TestRunner.UnitTesting
 {
+	//	Designates the class containing the tests
     [AttributeUsage(AttributeTargets.Class)]
     public class TestContainerAttribute : Attribute { }
 
+	//	The test case method
     [AttributeUsage(AttributeTargets.Method)]
     public class TestAttribute : Attribute
     {
         public string Description { get; set; }
     }
 
+	//	Set up method run prior to each test
     [AttributeUsage(AttributeTargets.Method)]
     public class SetUpAttribute : Attribute { }
 
+	//	Tear down method run after each test
     [AttributeUsage(AttributeTargets.Method)]
     public class TearDownAttribute : Attribute { }
 
+	//	Static method to initialize the test container, accepts TestContext parameter
     [AttributeUsage(AttributeTargets.Method)]
     public class ContainerInitializeAttribute : Attribute { }
 
+	//	Static method to clean up after the test container tests complete
     [AttributeUsage(AttributeTargets.Method)]
     public class ContainerCleanUpAttribute : Attribute { }
 
